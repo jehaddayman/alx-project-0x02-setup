@@ -1,42 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import PostCard from "@/components/common/PostCard";
 
-interface PostModalProps {
-  onClose: () => void;
-  onSubmit: (post: { title: string; content: string }) => void;
-}
+const PostsPage = () => {
+  const [posts, setPosts] = useState([]);
 
-const PostModal = ({ onClose, onSubmit }: PostModalProps) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-
-  const handleSubmit = () => {
-    onSubmit({ title, content });
-    onClose();
-  };
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts?_limit=5")
+      .then((res) => res.json())
+      .then((data) =>
+        setPosts(data.map((p: any) => ({ title: p.title, content: p.body, userId: p.userId })))
+      );
+  }, []);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg w-96">
-        <h2 className="text-xl font-bold mb-4">Add New Post</h2>
-        <input
-          className="w-full border mb-2 p-2"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <textarea
-          className="w-full border mb-2 p-2"
-          placeholder="Content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="bg-gray-300 px-4 py-1 rounded">Cancel</button>
-          <button onClick={handleSubmit} className="bg-blue-600 text-white px-4 py-1 rounded">Submit</button>
-        </div>
-      </div>
+    <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">Posts</h1>
+      {posts.map((post, idx) => (
+        <PostCard key={idx} {...post} />
+      ))}
     </div>
   );
 };
 
-export default PostModal;
+export default PostsPage;
