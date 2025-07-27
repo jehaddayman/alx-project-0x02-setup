@@ -1,5 +1,5 @@
 // pages/users.tsx
-import { GetStaticProps } from 'next';
+import { getStaticProps } from 'next';
 import { UserProps } from '../interfaces';
 import UserCard from '../components/common/UserCard';
 
@@ -7,7 +7,7 @@ type Props = {
   users: UserProps[];
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: getStaticProps = async () => {
   const res = await fetch('https://jsonplaceholder.typicode.com/users');
   const users: UserProps[] = await res.json();
 
