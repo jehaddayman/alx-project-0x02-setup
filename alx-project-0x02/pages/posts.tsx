@@ -1,26 +1,39 @@
 // pages/posts.tsx
-import React from 'react';
-import Header from '@/components/layout/Header';
-import PostCard from '@/components/common/PostCard';
-import { PostProps } from '@/interfaces';
 
-const dummyPosts: PostProps[] = [
-  { id: 1, title: 'First Post', content: 'This is the first post content' },
-  { id: 2, title: 'Second Post', content: 'Another interesting post content' },
-];
+import React from 'react'
+import { GetStaticProps } from 'next'
+import { PostProps } from '@/interfaces'
+import PostCard from '@/components/common/PostCard'
 
-const PostsPage = () => {
+type PostsPageProps = {
+  posts: PostProps[]
+}
+
+const PostsPage = ({ posts }: PostsPageProps) => {
   return (
-    <>
-      <Header />
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Posts</h1>
-        {dummyPosts.map((post) => (
-          <PostCard key={post.id} title={post.title} content={post.content} />
-        ))}
-      </div>
-    </>
-  );
-};
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+      {posts.map((post) => (
+        <PostCard key={post.id} {...post} />
+      ))}
+    </div>
+  )
+}
 
-export default PostsPage;
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5')
+  const data = await res.json()
+
+  const posts: PostProps[] = data.map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    content: item.body,
+  }))
+
+  return {
+    props: {
+      posts,
+    },
+  }
+}
+
+export default PostsPage
