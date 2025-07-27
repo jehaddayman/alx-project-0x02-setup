@@ -26,3 +26,9 @@ export interface UserProps {
     city: string;
   };
 }
+// interfaces/index.ts
+export interface PostProps {
+  id: number;
+  title: string;
+  content: string;
+}
