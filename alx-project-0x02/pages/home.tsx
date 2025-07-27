@@ -1,25 +1,20 @@
-import { useState } from "react";
-import PostModal from "@/components/common/PostModal";
-import Card from "@/components/common/Card";
+// pages/home.tsx
+import React, { useState } from 'react';
+import PostModal from '@/components/common/PostModal';
 
 const HomePage = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [posts, setPosts] = useState<{ title: string; content: string }[]>([]);
-
-  const handleAddPost = (post: { title: string; content: string }) => {
-    setPosts((prev) => [...prev, post]);
-  };
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Welcome to the Home Page</h1>
-      <button onClick={() => setModalOpen(true)} className="bg-green-600 text-white px-4 py-2 rounded mb-4">Add Post</button>
-
-      {modalOpen && <PostModal onClose={() => setModalOpen(false)} onSubmit={handleAddPost} />}
-
-      {posts.map((post, idx) => (
-        <Card key={idx} title={post.title} content={post.content} />
-      ))}
+      <h1 className="text-2xl font-bold mb-4">Home Page</h1>
+      <button
+        onClick={() => setShowModal(true)}
+        className="bg-green-500 text-white px-4 py-2 rounded"
+      >
+        Create Post
+      </button>
+      {showModal && <PostModal />}
     </div>
   );
 };
