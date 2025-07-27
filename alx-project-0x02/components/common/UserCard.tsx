@@ -1,11 +1,15 @@
-import { type UserProps } from "@/interfaces";
+// components/common/UserCard.tsx
+import React from 'react';
+import { UserProps } from '../../interfaces';
 
-const UserCard = ({ name, email, address }: UserProps) => (
-  <div className="border p-4 mb-4 rounded shadow">
-    <h2 className="font-bold text-lg">{name}</h2>
-    <p>Email: {email}</p>
-    <p>Address: {address.street}, {address.city}</p>
-  </div>
-);
+const UserCard = ({ user }: { user: UserProps }) => {
+  return (
+    <div className="border rounded-xl shadow-md p-4">
+      <h2 className="text-lg font-bold">{user.name}</h2>
+      <p>{user.email}</p>
+      <p>{user.phone}</p>
+    </div>
+  );
+};
 
 export default UserCard;
