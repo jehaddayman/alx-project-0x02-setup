@@ -1,3 +1,5 @@
+import Header from '@/components/layout/Header';
+
 // pages/home.tsx
 import React, { useState } from 'react';
 import PostModal from '@/components/common/PostModal';
@@ -6,6 +8,7 @@ const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
+    <Header />
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Home Page</h1>
       <button
