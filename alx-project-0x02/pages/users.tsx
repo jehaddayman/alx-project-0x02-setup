@@ -1,17 +1,17 @@
 // pages/users.tsx
 import React from 'react';
-import { UserCard } from '@/components/common/UserCard';
-import { type UserProps } from '@/interfaces';
+import { UserProps } from '../interfaces';
+import UserCard from '../components/common/UserCard';
 
-type UsersPageProps = {
+interface UsersPageProps {
   users: UserProps[];
-};
+}
 
 const UsersPage = ({ users }: UsersPageProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
       {users.map((user) => (
-        <UserCard key={user.id} {...user} />
+        <UserCard key={user.id} user={user} />
       ))}
     </div>
   );
