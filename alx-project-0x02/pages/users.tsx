@@ -1,23 +1,41 @@
-import { useEffect, useState } from "react";
-import UserCard from "@/components/common/UserCard";
+// pages/users.tsx
+import React from 'react';
 
-const UsersPage = () => {
-  const [users, setUsers] = useState([]);
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then(setUsers);
-  }, []);
+type UsersPageProps = {
+  users: User[];
+};
 
+const UsersPage: React.FC<UsersPageProps> = ({ users }) => {
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Users</h1>
-      {users.map((user, idx) => (
-        <UserCard key={idx} name={user.name} email={user.email} address={user.address} />
-      ))}
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">Users List</h1>
+      <ul className="space-y-2">
+        {users.map((user) => (
+          <li key={user.id} className="border p-2 rounded">
+            <p><strong>{user.name}</strong></p>
+            <p>{user.email}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
+};
+
+export const getStaticProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const users: User[] = await res.json();
+
+  return {
+    props: {
+      users,
+    },
+  };
 };
 
 export default UsersPage;
